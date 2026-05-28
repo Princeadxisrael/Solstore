@@ -116,7 +116,7 @@ User taps "Confirm & Sign"
        │    └─ Swap path: Jupiter /v6/swap → VersionedTransaction deserialized
        ├─ signAndSendTransaction(tx)  ← MWA opens wallet bottom sheet
        │    Wallet signs + broadcasts to RPC. Do NOT call sendRawTransaction yourself.
-       └─ connection.confirmTransaction() — polls until 'confirmed'
+       └─ connection.confirmTransaction() polls until 'confirmed'
 ```
 
 ---
@@ -130,28 +130,5 @@ SKR is the official Solana Mobile / Seeker ecosystem token, launched January 21 
 - Already wired into `TOKEN_MINTS` in `src/constants/index.ts` — no placeholder to replace.
 - Users paying with SKR receive a **5% discount** (`COMMUNITY_TOKEN_DISCOUNT`), rewarding Seeker device holders.
 - SKR is routed through Jupiter like any other SPL token; it has active liquidity pools on mainnet.
-- Always verify the mint address before interacting — scammers deploy fake SKR tokens with similar names.
+- Always verify the mint address before interacting. scammers deploy fake SKR tokens with similar names.
 
-## Community token integration
-
-`LAGOTOKEN` is a standard SPL token mint you deploy. To customise:
-
-1. Deploy your token: `spl-token create-token --decimals 6`
-2. Update `TOKEN_MINTS.LAGOTOKEN` in `src/constants/index.ts`
-3. Adjust `COMMUNITY_TOKEN_DISCOUNT` (default 5%)
-4. Add your token to a Jupiter pool so it has a swap route, OR handle it as a direct  
-   native transfer (the service already detects `isDirectTransfer` for USDC — extend  
-   this pattern for your community token if you prefer not to list on Jupiter)
-
----
-
-## Key mistakes to avoid
-
-| Mistake | Correct approach |
-|---|---|
-| Using `@solana-mobile/mobile-wallet-adapter-protocol-web3js` | Use `@wallet-ui/react-native-web3js` (current package per Feb 2026 docs) |
-| Calling `connection.sendRawTransaction()` after signing | `signAndSendTransaction` handles broadcast — don't double-send |
-| Running in Expo Go | Must use `expo run:android` (custom dev build) |
-| Importing `@solana/web3.js` before `polyfill.js` | `index.js` imports polyfill as the very first line |
-| Using `VersionedTransaction` without `ComputeBudgetProgram` | Always prepend a compute budget instruction for reliable landing |
-| Not handling ATA creation for merchant | `createAssociatedTokenAccountIdempotentInstruction` ensures merchant ATA exists |
