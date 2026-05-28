@@ -1,6 +1,6 @@
-# Lagos Web3 Market — Solana Mobile Storefront
+# Solana Mobile Storefront
 
-A native Android storefront where every item is priced in USDC (stablecoin), but users can pay with SOL, USDC, BONK, or a local community token (LAGOTOKEN). Non-USDC payments are routed through **Jupiter Swap** atomically.
+A native Android storefront where every item is priced in USDC (stablecoin), but users can pay with SOL, USDC, BONK, or SKR. Non-USDC payments are routed through **Jupiter Swap** atomically.
 
 ---
 
